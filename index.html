@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#ff6b35">
 <meta name="description" content="上海 7日旅行手册 2026.11.21-28">
-<title>Shanghaiga · 2026.11.21-28</title>
+<title>Shanghai · 2026.11.21-28</title>
 <style>
 :root{--bg:#f4f4f5;--surface:#fff;--text:#111;--sub:#6b7280;--muted:#9ca3af;--accent:#ff6b35;--accent2:#ff8f5a;--accent-soft:#fff0eb;--border:#e5e7eb;--shadow:0 1px 3px rgba(0,0,0,.06),0 10px 25px rgba(0,0,0,.04);--radius:20px;--radius-sm:14px;--success:#22c55e;--map:#f9fafb}
 [data-theme="night"]{--bg:#0f0f11;--surface:#18181b;--text:#f4f4f5;--sub:#a1a1aa;--muted:#71717a;--accent:#ff7a4d;--accent2:#ff9e7a;--accent-soft:#2a1b15;--border:#27272a;--shadow:0 1px 3px rgba(0,0,0,.3),0 10px 25px rgba(0,0,0,.25);--success:#4ade80;--map:#18181b}
@@ -71,10 +71,16 @@ header{margin-bottom:22px}
 .bk-d{font-size:13px;color:var(--sub);margin-top:2px}
 .todo-card{background:var(--surface);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:22px}
 .todo-card h3{font-size:18px;font-weight:800;margin-bottom:14px}
-.todo{list-style:none;counter-reset:td}
-.todo li{counter-increment:td;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:flex-start;gap:10px}
+.todo{list-style:none}
+.todo li{padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:center;gap:10px}
 .todo li:last-child{border-bottom:none}
-.todo li::before{content:counter(td);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--text);color:#fff;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.todo li::before{content:attr(data-num);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--text);color:#fff;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0}
+.todo-text{flex:1}
+.todo-del{color:var(--muted);cursor:pointer;font-size:18px;padding:0 4px}
+.todo-del:hover{color:var(--accent)}
+.todo-add{display:flex;gap:8px;margin-top:14px}
+.todo-input{flex:1;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;background:var(--bg);color:var(--text)}
+.todo-btn{background:var(--text);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer}
 .todo-note{font-size:12px;color:var(--muted);margin-top:12px;font-style:italic}
 .tips-card{background:var(--surface);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:22px}
 .tips-card h3{font-size:18px;font-weight:800;margin-bottom:14px}
@@ -94,7 +100,7 @@ header{margin-bottom:22px}
 <body>
 <div class="wrap">
 <header>
-<div class="brand">Shanghaiga</div>
+<div class="brand">Shanghai</div>
 <div class="date-line">21 Nov — 28 Nov 2026 · 4 travellers</div>
 </header>
 <div class="user-pill"><div class="user-avatar">SU</div><span>Suishern</span></div>
@@ -155,7 +161,7 @@ header{margin-bottom:22px}
 <text x="290" y="190" font-size="14">🏨</text>
 </svg>
 <div style="margin-top:12px;font-size:12px;color:var(--sub);display:flex;gap:12px;flex-wrap:wrap">
-<span>🟠 上海浦东 2晚</span><span>🟠 杭州 2晚</span><span>🟠 上海市区 2晚</span>
+<span>🟠 Pudong 2 nights</span><span>🟠 Hangzhou 2 nights</span><span>🟠 Shanghai city 2 nights</span>
 </div>
 </div>
 <div class="bk-card">
@@ -175,23 +181,12 @@ header{margin-bottom:22px}
 </div>
 <div class="todo-card">
 <h3>✅ To-do list</h3>
-<ul class="todo" id="todoList">
-<li>Confirm Hangzhou meet-up point & time</li>
-<li>Confirm all hotel rooms</li>
-<li>Book Cainiao HQ visit (Hangzhou)</li>
-<li>Book Cainiao Wuxi warehouse visit</li>
-<li>Arrange Hema Fresh store tour</li>
-<li>Confirm Sam's Club access</li>
-<li>Reserve Gongyan dinner</li>
-<li>Book Huangpu River cruise</li>
-<li>Check China visa-free policy before departure</li>
-<li>Set up Alipay / WeChat Pay</li>
-<li>Download Amap & DiDi apps</li>
-<li>Pack 8–15°C clothing</li>
-<li>Buy travel insurance</li>
-<li>Bring power bank for long airport wait</li>
-</ul>
-<p class="todo-note">Tell me when you finish an item and I will update the page</p>
+<ul class="todo" id="todoList"></ul>
+<div class="todo-add">
+<input type="text" class="todo-input" id="todoInput" placeholder="Add a new task...">
+<button class="todo-btn" onclick="addTodo()">Add</button>
+</div>
+<p class="todo-note">Tap the 🗑 to delete. Changes are saved only on this device.</p>
 </div>
 <div class="tips-card">
 <h3>💡 Tips</h3>
@@ -207,130 +202,47 @@ header{margin-bottom:22px}
 <div class="btm-r" id="themeLabel">☀️ Day mode</div>
 </div>
 <script>
-var places=[
-{day:1,time:'21 Nov 19:35',title:'Kuala Lumpur Airport',desc:'MH386 departure from KUL Terminal 1',icon:'✈️',lat:2.75,lng:101.71,tags:['Flight']},
-{day:1,time:'22 Nov 01:05',title:'Shanghai Pudong Airport',desc:'Arrive PVG Terminal 2, take hotel shuttle',icon:'🛬',lat:31.14,lng:121.81,tags:['Arrival']},
-{day:2,time:'09:00',title:'The Bund',desc:'Historic waterfront with colonial architecture and skyline views',icon:'🏙️',lat:31.24,lng:121.49,tags:['View']},
-{day:2,time:'11:30',title:'Yu Garden',desc:'Classic Jiangnan garden and old city bazaar',icon:'🌿',lat:31.23,lng:121.49,tags:['Culture']},
-{day:2,time:'12:30',title:'Nanxiang Steamed Bun',desc:'Famous xiaolongbao at Yu Garden',icon:'🥟',lat:31.23,lng:121.49,tags:['Food']},
-{day:2,time:'14:00',title:'Nanjing Road Pedestrian Street',desc:'Shanghai’s premier shopping street',icon:'🛍️',lat:31.24,lng:121.48,tags:['Shopping']},
-{day:2,time:'17:00',title:'Lujiazui Riverside',desc:'Close-up view of Oriental Pearl and Shanghai Tower',icon:'🏢',lat:31.24,lng:121.50,tags:['View']},
-{day:2,time:'20:00',title:'Lujiazui Night View',desc:'Skyline light show and photo spot',icon:'🌃',lat:31.24,lng:121.50,tags:['Night']},
-{day:3,time:'11:00',title:'Check out SHANGHAI-DECO Hotel',desc:'Leave Pudong hotel and head to Hangzhou',icon:'🏨',lat:31.15,lng:121.82,tags:['Hotel']},
-{day:3,time:'15:00',title:'Hangzhou Hotel',desc:'Check in and meet the group',icon:'🏨',lat:30.25,lng:120.15,tags:['Hotel']},
-{day:3,time:'17:00',title:'West Lake Night Walk',desc:'Bai Causeway → Broken Bridge → Gushan',icon:'🌙',lat:30.26,lng:120.15,tags:['Nature']},
-{day:3,time:'18:30',title:'Lou Wai Lou Restaurant',desc:'West Lake vinegar fish, Dongpo pork, Longjing shrimp',icon:'🍽️',lat:30.25,lng:120.14,tags:['Food']},
-{day:4,time:'10:00',title:'Cainiao HQ',desc:'Smart logistics campus visit in Yuhang',icon:'🏢',lat:30.28,lng:120.00,tags:['Business','Booking needed']},
-{day:4,time:'12:15',title:'Grandma’s House',desc:'Hangzhou home-style cuisine',icon:'🍽️',lat:30.27,lng:120.16,tags:['Food']},
-{day:4,time:'13:45',title:'Hema Fresh',desc:'New retail supermarket experience',icon:'🛒',lat:30.27,lng:120.16,tags:['Business','Arrange access']},
-{day:4,time:'15:45',title:'Sam’s Club',desc:'Membership warehouse store',icon:'🛒',lat:30.28,lng:120.10,tags:['Business','Member only']},
-{day:5,time:'10:00',title:'Cainiao Wuxi Warehouse',desc:'Automated warehouse with AGV robots',icon:'🏭',lat:31.57,lng:120.30,tags:['Business','Booking needed']},
-{day:5,time:'12:00',title:'Wang Xing Ji',desc:'Wuxi spare ribs and steamed buns',icon:'🍽️',lat:31.58,lng:120.31,tags:['Food']},
-{day:5,time:'16:00',title:'Shanghai City Hotel',desc:'Check in near Nanjing Road',icon:'🏨',lat:31.24,lng:121.48,tags:['Hotel']},
-{day:5,time:'18:00',title:'Gongyan Dinner',desc:'Song-style immersive dining with costume experience',icon:'🎭',lat:31.23,lng:121.48,tags:['Dinner','Reserve ahead']},
-{day:6,time:'10:00',title:'Xintiandi',desc:'Shikumen architecture, cafés and boutiques',icon:'☕',lat:31.22,lng:121.47,tags:['Culture']},
-{day:6,time:'12:00',title:'Nanxiang Steamed Bun',desc:'Xiaolongbao at Yu Garden',icon:'🥟',lat:31.23,lng:121.49,tags:['Food']},
-{day:6,time:'13:30',title:'Shanghai Tower',desc:'118F observation deck, 632m tall',icon:'🏢',lat:31.24,lng:121.50,tags:['View']},
-{day:6,time:'15:30',title:'Nanjing Road Shopping',desc:'Last-minute shopping',icon:'🛍️',lat:31.24,lng:121.48,tags:['Shopping']},
-{day:6,time:'19:30',title:'The Bund Night View',desc:'Historic buildings lit up along the river',icon:'🌃',lat:31.24,lng:121.49,tags:['Night']},
-{day:6,time:'20:00',title:'Huangpu River Cruise',desc:'1-hour night cruise, best views',icon:'🚢',lat:31.24,lng:121.49,tags:['Activity','Book ahead']},
-{day:7,time:'09:00',title:'Free morning activity',desc:'Option A: Lujiazui / Option B: Florentia Village / Option C: Sleep in',icon:'🌅',lat:31.24,lng:121.48,tags:['Free time']},
-{day:7,time:'12:00',title:'Head to Pudong Airport',desc:'Group transfer to PVG',icon:'🚗',lat:31.14,lng:121.81,tags:['Transfer']},
-{day:7,time:'02:15',title:'Depart Shanghai',desc:'MH387 PVG → KUL',icon:'✈️',lat:31.14,lng:121.81,tags:['Flight']}
+var defaultTodos=[
+"Confirm Hangzhou meet-up point & time",
+"Confirm all hotel rooms",
+"Book Cainiao HQ visit (Hangzhou)",
+"Book Cainiao Wuxi warehouse visit",
+"Arrange Hema Fresh store tour",
+"Confirm Sam's Club access",
+"Reserve Gongyan dinner",
+"Book Huangpu River cruise",
+"Check China visa-free policy before departure",
+"Set up Alipay / WeChat Pay",
+"Download Amap & DiDi apps",
+"Pack 8–15°C clothing",
+"Buy travel insurance",
+"Bring power bank for long airport wait"
 ];
-var dayNames={1:'Day 1 · Arrival',2:'Day 2 · Shanghai classic tour',3:'Day 3 · Shanghai → Hangzhou',4:'Day 4 · Hangzhou business visits',5:'Day 5 · Hangzhou → Wuxi → Shanghai',6:'Day 6 · Shanghai city tour',7:'Day 7 · Departure'};
-function tagClass(t){return t.includes('Booking')||t.includes('Reserve')||t.includes('Member')?'warn':(t.includes('Flight')||t.includes('Business')?'info':'');}
-function cardHTML(p,idx){
-var tags=p.tags.map(function(t){return '<span class="tag '+tagClass(t)+'">'+t+'</span>'}).join('');
-return '<div class="place-card" data-idx="'+idx+'" onclick="openPlace('+idx+')">'+
-'<div class="place-img" style="cursor:pointer">'+p.icon+'<div class="place-check" onclick="event.stopPropagation();togglePick('+idx+')">✓</div></div>'+
-'<div class="place-body">'+
-'<div class="place-title">'+p.title+'<span class="place-time">'+p.time+'</span></div>'+
-'<div class="place-desc">'+p.desc+'</div>'+
-'<div class="place-tags">'+tags+'<span class="tag">📍 Amap</span></div>'+
-'</div>'+
-'</div>';
-}
-var allEl=document.getElementById('allPlaces');
-places.forEach(function(p,i){allEl.innerHTML+=cardHTML(p,i);});
-var daysEl=document.getElementById('content-days');
-for(var d=1;d<=7;d++){
-var sec='<div id="day-'+d+'" class="day-section hidden">';
-sec+='<div class="sec-title">'+dayNames[d].split(' · ')[0]+'</div>';
-sec+='<div class="sec-sub">'+dayNames[d].split(' · ')[1]+'</div>';
-places.filter(function(p){return p.day===d}).forEach(function(p,i){sec+=cardHTML(p,i);});
-sec+='</div>';
-daysEl.innerHTML+=sec;
-}
-document.querySelectorAll('.tab').forEach(function(t){
-t.addEventListener('click',function(){
-document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
-t.classList.add('active');
-var day=t.dataset.day;
-if(day==='all'){
-document.getElementById('content-all').classList.remove('hidden');
-document.querySelectorAll('.day-section').forEach(function(s){s.classList.add('hidden')});
-}else{
-document.getElementById('content-all').classList.add('hidden');
-document.querySelectorAll('.day-section').forEach(function(s){s.classList.add('hidden')});
-document.getElementById('day-'+day).classList.remove('hidden');
-}
+var todos=JSON.parse(localStorage.getItem('shanghai_todos')||JSON.stringify(defaultTodos));
+function renderTodos(){
+var ul=document.getElementById('todoList');
+ul.innerHTML='';
+todos.forEach(function(t,i){
+var li=document.createElement('li');
+li.setAttribute('data-num',i+1);
+li.innerHTML='<span class="todo-text" contenteditable="true" onblur="editTodo('+i+',this)">'+escapeHtml(t)+'</span><span class="todo-del" onclick="deleteTodo('+i+')">🗑</span>';
+ul.appendChild(li);
 });
-});
-function openPlace(idx){
-var p=places[idx];
-window.open('https://uri.amap.com/marker?position='+p.lng+','+p.lat+'&name='+encodeURIComponent(p.title)+'&src=shanghaiga&coordinate=wgs84','_blank');
 }
-var picks=JSON.parse(localStorage.getItem('shanghaiga_picks')||'[]');
-function updatePicks(){
-document.querySelectorAll('.place-check').forEach(function(el,i){
-if(picks.includes(i))el.classList.add('on');else el.classList.remove('on');
-});
-document.getElementById('pickedCount').textContent=picks.length;
-document.getElementById('totalCount').textContent=places.length;
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function saveTodos(){localStorage.setItem('shanghai_todos',JSON.stringify(todos));}
+function addTodo(){
+var input=document.getElementById('todoInput');
+var v=input.value.trim();
+if(!v)return;
+todos.push(v);
+saveTodos();
+renderTodos();
+input.value='';
 }
-function togglePick(idx){
-var i=picks.indexOf(idx);
-if(i>-1)picks.splice(i,1);else picks.push(idx);
-localStorage.setItem('shanghaiga_picks',JSON.stringify(picks));
-updatePicks();
-}
-updatePicks();
-var events=[
-{ts:'2026-11-21T19:35:00+08:00',t:'Departure from KL',i:'✈️'},
-{ts:'2026-11-22T01:05:00+08:00',t:'Arrive in Shanghai',i:'🛬'},
-{ts:'2026-11-22T09:00:00+08:00',t:'Shanghai classic tour',i:'🏙️'},
-{ts:'2026-11-23T11:00:00+08:00',t:'Head to Hangzhou',i:'🧳'},
-{ts:'2026-11-24T10:00:00+08:00',t:'Hangzhou business visits',i:'🏢'},
-{ts:'2026-11-25T07:30:00+08:00',t:'Wuxi → Shanghai',i:'🚗'},
-{ts:'2026-11-26T10:00:00+08:00',t:'Shanghai city tour',i:'🏙️'},
-{ts:'2026-11-27T12:00:00+08:00',t:'To Pudong Airport',i:'🚗'},
-{ts:'2026-11-28T02:15:00+08:00',t:'Fly home',i:'✈️'}
-];
-function updateCD(){
-var now=new Date(),next=null;
-for(var i=0;i<events.length;i++)if(new Date(events[i].ts)>now){next=events[i];break;}
-if(!next){document.getElementById('cdEvent').textContent='🎉 Trip complete!';document.getElementById('cdTimer').style.display='none';return;}
-var tgt=new Date(next.ts),diff=tgt-now;
-var dd=Math.floor(diff/864e5),hh=Math.floor(diff%864e5/36e5),mm=Math.floor(diff%36e5/6e4),ss=Math.floor(diff%6e4/1e3);
-document.getElementById('cdEvent').innerHTML='<span style="font-size:28px;margin-right:6px">'+next.i+'</span>'+next.t;
-document.getElementById('cdD').textContent=dd;
-document.getElementById('cdH').textContent=String(hh).padStart(2,'0');
-document.getElementById('cdM').textContent=String(mm).padStart(2,'0');
-document.getElementById('cdS').textContent=String(ss).padStart(2,'0');
-var sh=tgt.toLocaleString('en-GB',{timeZone:'Asia/Shanghai',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-var local=tgt.toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-document.getElementById('cdTarget').textContent='Shanghai '+sh+' · Your time '+local;
-}
-updateCD();setInterval(updateCD,1000);
-function setTheme(){
-var h=new Date().getHours();
-var isDay=h>=6&&h<18;
-document.documentElement.setAttribute('data-theme',isDay?'day':'night');
-document.getElementById('themeLabel').textContent=isDay?'☀️ Day mode':'🌙 Night mode';
-}
-setTheme();setInterval(setTheme,60000);
+function deleteTodo(i){todos.splice(i,1);saveTodos();renderTodos();}
+function editTodo(i,el){todos[i]=el.innerText.trim();saveTodos();}
+renderTodos();
 </script>
 </body>
 </html>
-
