@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#c0392b">
+<meta name="description" content="上海·杭州·无锡 7日旅行手册 2026.11.21-28">
+<title>上海7日旅行手册 · 2026.11.21-28</title>
+<style>
+:root{
+  --bg:#f5f0e8;--card:#fff;--text:#2c2c2c;--sub:#777;--accent:#c0392b;
+  --accent2:#e74c3c;--border:#e8ddd0;--shadow:0 2px 12px rgba(0,0,0,.06);
+  --radius:14px;--badge-bg:#fff3cd;--badge-tx:#856404;--map-bg:#faf6f0;
+}
+[data-theme="night"]{
+  --bg:#1a1a2e;--card:#16213e;--text:#e0e0e0;--sub:#999;--accent:#e74c3c;
+  --accent2:#ff6b6b;--border:#2a2a4e;--shadow:0 2px 12px rgba(0,0,0,.3);
+  --badge-bg:#3d3517;--badge-tx:#ffd966;--map-bg:#1a1a2e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.65;font-size:15px;transition:background .5s,color .5s;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:580px;margin:0 auto;padding:14px 14px 60px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px;transition:background .5s,color .5s}
+h1{font-size:22px;text-align:center;margin-bottom:4px}
+h2{font-size:17px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:6px}
+h3{font-size:15px}
+.sub{text-align:center;color:var(--sub);font-size:13px;margin-bottom:16px}
+.theme-ind{font-size:12px;color:var(--sub);text-align:center;margin-bottom:10px}
+
+/* Countdown */
+.cd-card{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-align:center;padding:26px 18px}
+.cd-label{font-size:13px;opacity:.85;letter-spacing:2px}
+.cd-event{font-size:20px;font-weight:700;margin:10px 0 16px}
+.cd-event .ico{font-size:24px;margin-right:6px}
+.cd-timer{display:flex;justify-content:center;gap:14px;margin-bottom:10px}
+.cd-unit{display:flex;flex-direction:column;align-items:center}
+.cd-num{font-size:38px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.cd-unit small{font-size:11px;opacity:.8;margin-top:4px}
+.cd-target{font-size:12px;opacity:.85;line-height:1.5}
+.cd-done{font-size:22px;font-weight:700;padding:20px 0}
+
+/* Map */
+.map-legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:10px 0 4px;font-size:12px;color:var(--sub)}
+.map-legend span{display:flex;align-items:center;gap:4px}
+.map-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.overview-map{width:100%;height:auto;display:block;border-radius:10px;background:var(--map-bg)}
+
+/* Bookings */
+.bk{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.bk:last-child{border-bottom:none}
+.bk-ico{font-size:28px;flex-shrink:0}
+.bk-t{font-weight:700;font-size:15px}
+.bk-d{font-size:13px;color:var(--sub);margin-top:2px}
+.bk-note{font-size:12px;color:var(--accent);margin-top:4px}
+
+/* Itinerary */
+.day-card{margin-bottom:14px;overflow:hidden}
+.day-hdr{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:14px 18px}
+.day-hdr-l{display:flex;align-items:center;gap:10px}
+.day-num{width:32px;height:32px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.day-meta{font-size:13px;color:var(--sub)}
+.day-title{font-size:15px;font-weight:700}
+.day-stay{font-size:12px;color:var(--sub);margin-top:2px}
+.expand-ico{font-size:12px;color:var(--sub);transition:transform .3s}
+.expand-ico.open{transform:rotate(180deg)}
+.day-map-wrap{display:none;padding:0 18px 14px}
+.day-map-wrap.show{display:block}
+.day-map-svg{width:100%;height:auto;border-radius:8px;background:var(--map-bg)}
+.nav-btn{display:block;width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px}
+.timeline{padding:0 18px 14px}
+.tl-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-time{flex-shrink:0;width:52px;font-weight:700;font-size:13px;color:var(--accent);padding-top:1px}
+.tl-body{flex:1}
+.tl-title{font-size:14px;font-weight:600}
+.tl-desc{font-size:12px;color:var(--sub);margin-top:2px}
+.loc-link{cursor:pointer;color:var(--accent);text-decoration:underline;text-decoration-style:dotted;font-size:12px;display:inline-flex;align-items:center;gap:2px;margin-top:3px}
+.badge{display:inline-block;background:var(--badge-bg);color:var(--badge-tx);padding:1px 7px;border-radius:4px;font-size:11px;margin-left:6px;font-weight:600}
+
+/* Todo */
+.todo{list-style:none;counter-reset:td}
+.todo li{counter-increment:td;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:center;gap:8px}
+.todo li::before{content:counter(td);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0}
+.todo-note{font-size:12px;color:var(--sub);margin-top:10px;font-style:italic}
+
+/* Tips */
+.tip{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.tip:last-child{border-bottom:none}
+.tip-ico{font-size:22px;flex-shrink:0}
+.tip-t{font-weight:600;font-size:14px}
+.tip-d{font-size:13px;color:var(--sub);margin-top:2px}
+
+/* Footer */
+footer{text-align:center;color:var(--sub);font-size:12px;padding:20px 0 10px;line-height:1.8}
+
+/* Scroll top */
+.totop{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:18px;cursor:pointer;display:none;z-index:99;box-shadow:var(--shadow)}
+.totop.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+<h1>🏙️ 上海 7 日旅行手册</h1>
+<p class="sub">2026.11.21 — 11.28 · 4 人 · 上海 · 杭州 · 无锡</p>
+<div class="theme-ind" id="themeInd">☀️ 白天模式</div>
+</header>
+
+<!-- 1. 此刻关注 -->
+<div class="card cd-card" id="cdCard">
+<div class="cd-label">此刻关注</div>
+<div class="cd-event" id="cdEvent"><span class="ico">✈️</span>准备出发</div>
+<div class="cd-timer" id="cdTimer">
+<div class="cd-unit"><span class="cd-num" id="cdD">0</span><small>天</small></div>
+<div class="cd-unit"><span class="cd-num" id="cdH">00</span><small>时</small></div>
+<div class="cd-unit"><span class="cd-num" id="cdM">00</span><small>分</small></div>
+<div class="cd-unit"><span class="cd-num" id="cdS">00</span><small>秒</small></div>
+</div>
+<div class="cd-target" id="cdTarget"></div>
+</div>
+
+<!-- 2. 行程总览地图 -->
+<div class="card">
+<h2>🗺️ 行程总览</h2>
+<svg class="overview-map" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="500" fill="var(--map-bg)" rx="10"/>
+<!-- 长江 -->
+<path d="M20,80 Q120,65 220,90 Q320,115 385,75" fill="none" stroke="#b8cce0" stroke-width="2.5" stroke-dasharray="4,3" opacity=".5"/>
+<text x="30" y="72" font-size="10" fill="#b8cce0" opacity=".6">长江</text>
+<!-- 杭州湾 -->
+<path d="M180,430 Q280,450 385,420" fill="none" stroke="#b8cce0" stroke-width="2.5" stroke-dasharray="4,3" opacity=".5"/>
+<text x="310" y="448" font-size="10" fill="#b8cce0" opacity=".6">杭州湾</text>
+<!-- D1 KUL→PVG -->
+<path d="M380,490 Q360,350 340,215" fill="none" stroke="#3498db" stroke-width="2.5" stroke-dasharray="6,4" stroke-linecap="round" opacity=".7"/>
+<text x="355" y="400" font-size="9" fill="#3498db" opacity=".7">✈ D1</text>
+<!-- D2 上海 loop -->
+<path d="M340,215 Q310,195 285,180 Q300,165 320,185 Q330,200 340,215" fill="none" stroke="#2ecc71" stroke-width="2.5" stroke-dasharray="6,4" stroke-linecap="round"/>
+<!-- D3 PVG→杭州 -->
+<path d="M340,215 Q280,310 165,385" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,4" stroke-linecap="round"/>
+<!-- D4 杭州本地 -->
+<ellipse cx="165" cy="385" rx="28" ry="22" fill="none" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,3"/>
+<!-- D5 杭州→无锡→上海 -->
+<path d="M165,385 Q145,250 140,130 Q200,150 285,180" fill="none" stroke="#9b59b6" stroke-width="2.5" stroke-dasharray="6,4" stroke-linecap="round"/>
+<!-- D6 上海本地 -->
+<ellipse cx="285" cy="180" rx="28" ry="22" fill="none" stroke="#1abc9c" stroke-width="2" stroke-dasharray="4,3"/>
+<!-- D7 上海→PVG -->
+<path d="M285,180 Q310,198 340,215" fill="none" stroke="#95a5a6" stroke-width="2.5" stroke-dasharray="6,4" stroke-linecap="round"/>
+<!-- 城市 -->
+<circle cx="140" cy="130" r="7" fill="var(--text)"/>
+<text x="150" y="135" font-size="13" fill="var(--text)" font-weight="600">无锡</text>
+<circle cx="285" cy="180" r="9" fill="var(--accent)"/>
+<text x="298" y="185" font-size="14" fill="var(--text)" font-weight="700">上海</text>
+<circle cx="340" cy="215" r="5" fill="#3498db"/>
+<text x="348" y="220" font-size="11" fill="var(--sub)">浦东机场 🛫</text>
+<circle cx="165" cy="385" r="9" fill="var(--accent)"/>
+<text x="178" y="390" font-size="14" fill="var(--text)" font-weight="700">杭州</text>
+<!-- 酒店 -->
+<text x="345" y="235" font-size="14">🏨</text>
+<text x="170" y="405" font-size="14">🏨</text>
+<text x="290" y="200" font-size="14">🏨</text>
+</svg>
+<div class="map-legend">
+<span><i class="map-dot" style="background:#3498db"></i>D1 11/21 出发</span>
+<span><i class="map-dot" style="background:#2ecc71"></i>D2 11/22 上海</span>
+<span><i class="map-dot" style="background:#e67e22"></i>D3 11/23 →杭州</span>
+<span><i class="map-dot" style="background:#e74c3c"></i>D4 11/24 杭州</span>
+<span><i class="map-dot" style="background:#9b59b6"></i>D5 11/25 →上海</span>
+<span><i class="map-dot" style="background:#1abc9c"></i>D6 11/26 上海</span>
+<span><i class="map-dot" style="background:#95a5a6"></i>D7 11/27 →PVG</span>
+</div>
+</div>
+
+<!-- 3. 已确认订单 -->
+<div class="card">
+<h2>📋 已确认订单</h2>
+<div class="bk">
+<div class="bk-ico">✈️</div>
+<div><div class="bk-t">去程 MH386 · 马来西亚航空</div>
+<div class="bk-d">11月21日(六) 19:35 KUL T1 → 11月22日(日) 01:05 PVG T2 · 直飞 5h30m</div></div>
+</div>
+<div class="bk">
+<div class="bk-ico">✈️</div>
+<div><div class="bk-t">回程 MH387 · 马来西亚航空</div>
+<div class="bk-d">11月28日(日) 02:15 PVG T2 → 08:00 KUL T1 · 直飞 5h45m</div></div>
+</div>
+<div class="bk">
+<div class="bk-ico">🏨</div>
+<div><div class="bk-t">SHANGHAI-DECO Hotel</div>
+<div class="bk-d">11/21–11/23 · 2晚 · No.815 Chengyang Road, Zhuqiao Zhen, Shanghai 201202</div>
+<div class="bk-d">免费 24h 浦东机场 + 迪士尼 shuttle bus</div></div>
+</div>
+<div class="bk">
+<div class="bk-ico">📝</div>
+<div><div class="bk-t">其他住宿待确认</div>
+<div class="bk-d">杭州 11/23–25 · 上海市区 11/25–27</div>
+<div class="bk-note">确认号/证件号/房间号不在此公开页面显示</div></div>
+</div>
+</div>
+
+<!-- 4. 逐日行程 -->
+<div class="card" style="padding:0">
+<h2 style="margin:14px 18px 10px">📅 逐日行程</h2>
+<p style="font-size:12px;color:var(--sub);margin:0 18px 10px">所有时间为上海时间 (UTC+8) · 点击地点名称可唤起高德地图导航</p>
+
+<!-- Day 1 -->
+<div class="day-card" style="border-bottom:1px solid var(--border)">
+<div class="day-hdr" onclick="toggleMap(1)">
+<div class="day-hdr-l"><div class="day-num" style="background:#3498db">1</div>
+<div><div class="day-title">出发日</div><div class="day-meta">11月21日(六) · 🏨 上海浦东</div></div></div>
+<span class="expand-ico" id="ei1">▼</span></div>
+<div class="day-map-wrap" id="dm1"><div id="svg1"></div>
+<button class="nav-btn" onclick="openDayNav(1)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">19:35</div><div class="tl-body">
+<div class="tl-title">从吉隆坡出发</div>
+<div class="tl-desc">MH386 · KUL T1 → PVG T2 · 直飞 5h30m</div>
+<span class="loc-link" onclick="amap(101.71,2.75,'吉隆坡国际机场')">📍 吉隆坡机场</span></div></div>
+<div class="tl-item"><div class="tl-time">01:05<br>⁺¹</div><div class="tl-body">
+<div class="tl-title">抵达上海浦东机场</div>
+<div class="tl-desc">乘酒店免费 shuttle 入住 SHANGHAI-DECO Hotel</div>
+<span class="loc-link" onclick="amap(121.81,31.14,'上海浦东国际机场')">📍 浦东机场</span></div></div>
+</div>
+</div>
+
+<!-- Day 2 -->
+<div class="day-card" style="border-bottom:1px solid var(--border)">
+<div class="day-hdr" onclick="toggleMap(2)">
+<div class="day-hdr-l"><div class="day-num" style="background:#2ecc71">2</div>
+<div><div class="day-title">上海经典一日游</div><div class="day-meta">11月22日(日) · 🏨 上海浦东</div></div></div>
+<span class="expand-ico" id="ei2">▼</span></div>
+<div class="day-map-wrap" id="dm2"><div id="svg2"></div>
+<button class="nav-btn" onclick="openDayNav(2)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">09:00</div><div class="tl-body">
+<div class="tl-title">外滩</div>
+<div class="tl-desc">中山东一路 · 万国建筑博览群 · 欣赏浦东天际线</div>
+<span class="loc-link" onclick="amap(121.49,31.24,'外滩')">📍 外滩</span></div></div>
+<div class="tl-item"><div class="tl-time">11:30</div><div class="tl-body">
+<div class="tl-title">豫园</div>
+<div class="tl-desc">江南古典园林 · 老城隍庙商圈</div>
+<span class="loc-link" onclick="amap(121.49,31.23,'豫园')">📍 豫园</span></div></div>
+<div class="tl-item"><div class="tl-time">12:30</div><div class="tl-body">
+<div class="tl-title">午餐：南翔馒头店</div>
+<div class="tl-desc">豫园店 · 始于1900年 · 经典小笼包</div>
+<span class="loc-link" onclick="amap(121.49,31.23,'南翔馒头店豫园店')">📍 南翔馒头店</span></div></div>
+<div class="tl-item"><div class="tl-time">14:00</div><div class="tl-body">
+<div class="tl-title">南京东路步行街</div>
+<div class="tl-desc">中华商业第一街 · 购物逛街</div>
+<span class="loc-link" onclick="amap(121.48,31.24,'南京东路步行街')">📍 南京东路</span></div></div>
+<div class="tl-item"><div class="tl-time">17:00</div><div class="tl-body">
+<div class="tl-title">陆家嘴滨江大道</div>
+<div class="tl-desc">东方明珠 · 上海中心 · 浦东天际线近观</div>
+<span class="loc-link" onclick="amap(121.50,31.24,'陆家嘴滨江大道')">📍 陆家嘴</span></div></div>
+<div class="tl-item"><div class="tl-time">20:00</div><div class="tl-body">
+<div class="tl-title">陆家嘴夜景</div>
+<div class="tl-desc">灯光秀 · 拍照打卡</div>
+<span class="loc-link" onclick="amap(121.50,31.24,'陆家嘴夜景')">📍 陆家嘴夜景</span></div></div>
+</div>
+</div>
+
+<!-- Day 3 -->
+<div class="day-card" style="border-bottom:1px solid var(--border)">
+<div class="day-hdr" onclick="toggleMap(3)">
+<div class="day-hdr-l"><div class="day-num" style="background:#e67e22">3</div>
+<div><div class="day-title">上海 → 杭州</div><div class="day-meta">11月23日(日) · 🏨 杭州</div></div></div>
+<span class="expand-ico" id="ei3">▼</span></div>
+<div class="day-map-wrap" id="dm3"><div id="svg3"></div>
+<button class="nav-btn" onclick="openDayNav(3)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">09:00</div><div class="tl-body">
+<div class="tl-title">酒店早餐，慢节奏</div>
+<div class="tl-desc">整理行李，准备退房</div></div></div>
+<div class="tl-item"><div class="tl-time">11:00</div><div class="tl-body">
+<div class="tl-title">退房 SHANGHAI-DECO Hotel</div>
+<span class="loc-link" onclick="amap(121.82,31.15,'SHANGHAI-DECO Hotel')">📍 酒店</span></div></div>
+<div class="tl-item"><div class="tl-time">12:00</div><div class="tl-body">
+<div class="tl-title">前往杭州，与团队会合</div>
+<div class="tl-desc">会合地点待确认 · 高铁约 1h 或包车</div></div></div>
+<div class="tl-item"><div class="tl-time">15:00</div><div class="tl-body">
+<div class="tl-title">抵达杭州，入住酒店</div>
+<span class="loc-link" onclick="amap(120.15,30.25,'杭州西湖')">📍 杭州</span></div></div>
+<div class="tl-item"><div class="tl-time">17:00</div><div class="tl-body">
+<div class="tl-title">西湖夜游</div>
+<div class="tl-desc">白堤 → 断桥残雪 → 孤山</div>
+<span class="loc-link" onclick="amap(120.15,30.26,'西湖断桥')">📍 西湖断桥</span></div></div>
+<div class="tl-item"><div class="tl-time">18:30</div><div class="tl-body">
+<div class="tl-title">晚餐：楼外楼</div>
+<div class="tl-desc">孤山店 · 西湖醋鱼、东坡肉、龙井虾仁</div>
+<span class="loc-link" onclick="amap(120.14,30.25,'楼外楼孤山店')">📍 楼外楼</span></div></div>
+</div>
+</div>
+
+<!-- Day 4 -->
+<div class="day-card" style="border-bottom:1px solid var(--border)">
+<div class="day-hdr" onclick="toggleMap(4)">
+<div class="day-hdr-l"><div class="day-num" style="background:#e74c3c">4</div>
+<div><div class="day-title">杭州商务参观</div><div class="day-meta">11月24日(一) · 🏨 杭州</div></div></div>
+<span class="expand-ico" id="ei4">▼</span></div>
+<div class="day-map-wrap" id="dm4"><div id="svg4"></div>
+<button class="nav-btn" onclick="openDayNav(4)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">08:00</div><div class="tl-body">
+<div class="tl-title">早餐</div></div></div>
+<div class="tl-item"><div class="tl-time">10:00</div><div class="tl-body">
+<div class="tl-title">菜鸟总部<span class="badge">需提前预约</span></div>
+<div class="tl-desc">余杭 · 智慧物流园区参观</div>
+<span class="loc-link" onclick="amap(120.00,30.28,'菜鸟网络总部')">📍 菜鸟总部</span></div></div>
+<div class="tl-item"><div class="tl-time">12:15</div><div class="tl-body">
+<div class="tl-title">午餐：外婆家</div>
+<div class="tl-desc">杭帮菜 · 茶香鸡、麻婆豆腐 · 性价比高</div>
+<span class="loc-link" onclick="amap(120.16,30.27,'外婆家杭州')">📍 外婆家</span></div></div>
+<div class="tl-item"><div class="tl-time">13:45</div><div class="tl-body">
+<div class="tl-title">盒马鲜生<span class="badge">需安排</span></div>
+<div class="tl-desc">门店参观 · 新零售体验</div>
+<span class="loc-link" onclick="amap(120.16,30.27,'盒马鲜生杭州')">📍 盒马鲜生</span></div></div>
+<div class="tl-item"><div class="tl-time">15:45</div><div class="tl-body">
+<div class="tl-title">山姆会员店<span class="badge">需会员资格</span></div>
+<div class="tl-desc">西溪店 · 仓储式会员超市</div>
+<span class="loc-link" onclick="amap(120.10,30.28,'山姆会员店杭州西溪店')">📍 山姆会员店</span></div></div>
+<div class="tl-item"><div class="tl-time">17:00</div><div class="tl-body">
+<div class="tl-title">返回酒店</div></div></div>
+</div>
+</div>
+
+<!-- Day 5 -->
+<div class="day-card" style="border-bottom:1px solid var(--border)">
+<div class="day-hdr" onclick="toggleMap(5)">
+<div class="day-hdr-l"><div class="day-num" style="background:#9b59b6">5</div>
+<div><div class="day-title">杭州 → 无锡 → 上海</div><div class="day-meta">11月25日(二) · 🏨 上海市区</div></div></div>
+<span class="expand-ico" id="ei5">▼</span></div>
+<div class="day-map-wrap" id="dm5"><div id="svg5"></div>
+<button class="nav-btn" onclick="openDayNav(5)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">07:30</div><div class="tl-body">
+<div class="tl-title">退房，出发去无锡</div>
+<div class="tl-desc">杭州 → 无锡 约 2.5h 车程</div></div></div>
+<div class="tl-item"><div class="tl-time">10:00</div><div class="tl-body">
+<div class="tl-title">菜鸟无锡智慧仓库<span class="badge">需提前预约</span></div>
+<div class="tl-desc">自动化仓储 · AGV 机器人参观</div>
+<span class="loc-link" onclick="amap(120.30,31.57,'菜鸟无锡仓库')">📍 无锡仓库</span></div></div>
+<div class="tl-item"><div class="tl-time">12:00</div><div class="tl-body">
+<div class="tl-title">午餐：王兴记</div>
+<div class="tl-desc">无锡排骨、小笼包 · 老字号</div>
+<span class="loc-link" onclick="amap(120.31,31.58,'王兴记无锡')">📍 王兴记</span></div></div>
+<div class="tl-item"><div class="tl-time">13:30</div><div class="tl-body">
+<div class="tl-title">无锡 → 上海</div>
+<div class="tl-desc">约 2h 车程</div></div></div>
+<div class="tl-item"><div class="tl-time">16:00</div><div class="tl-body">
+<div class="tl-title">抵达上海，入住酒店</div>
+<div class="tl-desc">南京东路附近</div>
+<span class="loc-link" onclick="amap(121.48,31.24,'南京东路')">📍 南京东路</span></div></div>
+<div class="tl-item"><div class="tl-time">18:00</div><div class="tl-body">
+<div class="tl-title">晚餐：宫宴<span class="badge">需提前订座</span></div>
+<div class="tl-desc">宋韵沉浸式晚宴 · 汉服体验 · 沉浸式表演</div>
+<span class="loc-link" onclick="amap(121.48,31.23,'宫宴上海')">📍 宫宴</span></div></div>
+</div>
+</div>
+
+<!-- Day 6 -->
+<div class="day-card" style="border-bottom:1px solid var(--border)">
+<div class="day-hdr" onclick="toggleMap(6)">
+<div class="day-hdr-l"><div class="day-num" style="background:#1abc9c">6</div>
+<div><div class="day-title">上海市区游览</div><div class="day-meta">11月26日(三) · 🏨 上海市区</div></div></div>
+<span class="expand-ico" id="ei6">▼</span></div>
+<div class="day-map-wrap" id="dm6"><div id="svg6"></div>
+<button class="nav-btn" onclick="openDayNav(6)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">10:00</div><div class="tl-body">
+<div class="tl-title">新天地</div>
+<div class="tl-desc">石库门建筑 · 时尚餐饮酒吧</div>
+<span class="loc-link" onclick="amap(121.47,31.22,'新天地')">📍 新天地</span></div></div>
+<div class="tl-item"><div class="tl-time">12:00</div><div class="tl-body">
+<div class="tl-title">午餐：南翔馒头店</div>
+<div class="tl-desc">豫园店 · 经典小笼包</div>
+<span class="loc-link" onclick="amap(121.49,31.23,'南翔馒头店豫园店')">📍 南翔馒头店</span></div></div>
+<div class="tl-item"><div class="tl-time">13:30</div><div class="tl-body">
+<div class="tl-title">上海中心大厦</div>
+<div class="tl-desc">118层观光厅 · 中国第一高楼 632m</div>
+<span class="loc-link" onclick="amap(121.50,31.24,'上海中心大厦')">📍 上海中心</span></div></div>
+<div class="tl-item"><div class="tl-time">15:30</div><div class="tl-body">
+<div class="tl-title">南京东路购物</div>
+<div class="tl-desc">中华商业第一街</div>
+<span class="loc-link" onclick="amap(121.48,31.24,'南京东路步行街')">📍 南京东路</span></div></div>
+<div class="tl-item"><div class="tl-time">18:30</div><div class="tl-body">
+<div class="tl-title">晚餐</div></div></div>
+<div class="tl-item"><div class="tl-time">19:30</div><div class="tl-body">
+<div class="tl-title">外滩夜景</div>
+<div class="tl-desc">万国建筑亮灯 · 拍照打卡</div>
+<span class="loc-link" onclick="amap(121.49,31.24,'外滩夜景')">📍 外滩</span></div></div>
+<div class="tl-item"><div class="tl-time">20:00</div><div class="tl-body">
+<div class="tl-title">黄浦江游轮<span class="badge">建议提前订票</span></div>
+<div class="tl-desc">浦江游览 · 约1小时 · 夜景最佳</div>
+<span class="loc-link" onclick="amap(121.49,31.24,'黄浦江游轮码头')">📍 游轮码头</span></div></div>
+</div>
+</div>
+
+<!-- Day 7 -->
+<div class="day-card">
+<div class="day-hdr" onclick="toggleMap(7)">
+<div class="day-hdr-l"><div class="day-num" style="background:#95a5a6">7</div>
+<div><div class="day-title">返程准备</div><div class="day-meta">11月27日(四) · ✈ 浦东机场</div></div></div>
+<span class="expand-ico" id="ei7">▼</span></div>
+<div class="day-map-wrap" id="dm7"><div id="svg7"></div>
+<button class="nav-btn" onclick="openDayNav(7)">🧭 一键多点导航</button></div>
+<div class="timeline">
+<div class="tl-item"><div class="tl-time">09:00</div><div class="tl-body">
+<div class="tl-title">自由活动（三选一）</div>
+<div class="tl-desc">A. 陆家嘴滨江 + 正大广场购物<br>B. 佛罗伦萨小镇（奥特莱斯）<br>C. 睡到自然醒，轻松退房</div>
+<span class="loc-link" onclick="amap(121.50,31.24,'陆家嘴正大广场')">📍 选项A</span>
+<span class="loc-link" onclick="amap(121.77,31.18,'佛罗伦萨小镇上海')">📍 选项B</span></div></div>
+<div class="tl-item"><div class="tl-time">12:00</div><div class="tl-body">
+<div class="tl-title">集合，前往浦东机场</div>
+<div class="tl-desc">约 1h 车程</div></div></div>
+<div class="tl-item"><div class="tl-time">13:00</div><div class="tl-body">
+<div class="tl-title">抵达浦东机场</div>
+<div class="tl-desc">机场等待至凌晨航班 · 建议带充电宝 · 机场有休息区</div>
+<span class="loc-link" onclick="amap(121.81,31.14,'上海浦东国际机场')">📍 浦东机场</span></div></div>
+<div class="tl-item"><div class="tl-time">02:15<br>⁺¹</div><div class="tl-body">
+<div class="tl-title">飞回吉隆坡</div>
+<div class="tl-desc">MH387 · PVG T2 → KUL T1 · 直飞 5h45m</div></div></div>
+</div>
+</div>
+</div>
+
+<!-- 5. 待办清单 -->
+<div class="card">
+<h2>✅ 待办清单</h2>
+<ul class="todo">
+<li>确认杭州会合地点与时间</li>
+<li>确认所有酒店房间</li>
+<li>预约菜鸟总部参观（杭州余杭）</li>
+<li>预约菜鸟无锡智慧仓库参观</li>
+<li>安排盒马鲜生门店参观</li>
+<li>确认山姆会员店进入资格</li>
+<li>预订宫宴晚餐（宋韵沉浸式晚宴）</li>
+<li>预订黄浦江游轮票</li>
+<li>出发前确认中国免签政策（马来西亚护照）</li>
+<li>准备支付宝 / 微信支付（绑定境外信用卡）</li>
+<li>下载高德地图 App</li>
+<li>下载滴滴出行 App</li>
+<li>准备 8–15°C 衣物（外套 + 薄羽绒）</li>
+<li>购买旅游保险</li>
+<li>准备充电宝（11/27 机场长等待）</li>
+</ul>
+<p class="todo-note">办完一项告诉我，我来更新页面</p>
+</div>
+
+<!-- 6. 实用贴士 -->
+<div class="card">
+<h2>💡 实用贴士</h2>
+<div class="tip"><div class="tip-ico">🌤️</div><div><div class="tip-t">天气</div><div class="tip-d">11月下旬上海 8–15°C，早晚较凉，建议外套+薄羽绒，备一把折叠伞</div></div></div>
+<div class="tip"><div class="tip-ico">💳</div><div><div class="tip-t">支付</div><div class="tip-d">提前绑定支付宝/微信支付（支持境外信用卡），大部分场所不支持现金以外的方式，建议备少量现金</div></div></div>
+<div class="tip"><div class="tip-ico">🗺️</div><div><div class="tip-t">导航</div><div class="tip-d">下载高德地图 App（国内导航首选），本页面所有地点均可点击直接唤起高德导航</div></div></div>
+<div class="tip"><div class="tip-ico">🛂</div><div><div class="tip-t">签证</div><div class="tip-d">马来西亚护照目前 30 天免签，出发前请再确认最新政策</div></div></div>
+<div class="tip"><div class="tip-ico">📶</div><div><div class="tip-t">网络</div><div class="tip-d">建议买中国 SIM 卡或开通国际漫游，浦东机场有免费 WiFi</div></div></div>
+<div class="tip"><div class="tip-ico">🚗</div><div><div class="tip-t">出行</div><div class="tip-d">下载滴滴出行 App 打车，或使用高德地图叫车功能</div></div></div>
+<div class="tip"><div class="tip-ico">🚨</div><div><div class="tip-t">紧急电话</div><div class="tip-d">110 报警 · 120 急救 · 119 火警</div></div></div>
+<div class="tip"><div class="tip-ico">🔋</div><div><div class="tip-t">11/27 机场长等待</div><div class="tip-d">13:00 到机场，02:15 航班，等待约 13 小时。带充电宝、颈枕、耳塞，机场有休息区和餐饮</div></div></div>
+<div class="tip"><div class="tip-ico">🗣️</div><div><div class="tip-t">语言</div><div class="tip-d">上海通用普通话，景区有英文标识，年轻人基本可用英语沟通</div></div></div>
+</div>
+
+<footer>
+<p>上海 7 日旅行手册 · 2026.11.21 — 11.28</p>
+<p>此页面可离线查看 · 收藏后无需网络即可打开</p>
+<p>所有时间为上海时间 (UTC+8) · 跨时区打开倒计时不会算错</p>
+</footer>
+
+</div>
+
+<button class="totop" id="totop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ===== 事件时间表 (ISO 8601 +08:00) =====
+var events=[
+  {ts:'2026-11-21T19:35:00+08:00',t:'从吉隆坡出发',i:'✈️',d:'MH386 · KUL → PVG'},
+  {ts:'2026-11-22T01:05:00+08:00',t:'抵达上海浦东机场',i:'🛬',d:'乘酒店 shuttle 入住'},
+  {ts:'2026-11-22T09:00:00+08:00',t:'上海经典一日游',i:'🏙️',d:'外滩 → 豫园 → 南京路 → 陆家嘴'},
+  {ts:'2026-11-23T11:00:00+08:00',t:'退房，前往杭州',i:'🧳',d:'与团队会合'},
+  {ts:'2026-11-24T10:00:00+08:00',t:'杭州商务参观',i:'🏢',d:'菜鸟 → 盒马 → 山姆'},
+  {ts:'2026-11-25T07:30:00+08:00',t:'出发去无锡',i:'🚗',d:'杭州 → 无锡 → 上海'},
+  {ts:'2026-11-26T10:00:00+08:00',t:'上海市区游览',i:'🏙️',d:'新天地 → 上海中心 → 外滩游轮'},
+  {ts:'2026-11-27T12:00:00+08:00',t:'集合前往浦东机场',i:'🚗',d:'准备凌晨航班'},
+  {ts:'2026-11-28T02:15:00+08:00',t:'飞回吉隆坡',i:'✈️',d:'MH387 · PVG → KUL'}
+];
+
+// ===== 倒计时 =====
+function updateCD(){
+  var now=new Date(),next=null;
+  for(var i=0;i<events.length;i++){
+    if(new Date(events[i].ts)>now){next=events[i];break;}
+  }
+  var card=document.getElementById('cdCard');
+  if(!next){
+    card.innerHTML='<div class="cd-label">此刻关注</div><div class="cd-done">🎉 旅途愉快！平安回家</div>';
+    return;
+  }
+  var tgt=new Date(next.ts),diff=tgt-now;
+  if(diff<0)diff=0;
+  var d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
+  document.getElementById('cdEvent').innerHTML='<span class="ico">'+next.i+'</span>'+next.t;
+  document.getElementById('cdD').textContent=d;
+  document.getElementById('cdH').textContent=String(h).padStart(2,'0');
+  document.getElementById('cdM').textContent=String(m).padStart(2,'0');
+  document.getElementById('cdS').textContent=String(s).padStart(2,'0');
+  var shTime=tgt.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  var locTime=tgt.toLocaleString('zh-CN',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('cdTarget').innerHTML='上海时间 '+shTime+' · 你的时间 '+locTime+'<br>'+next.d;
+}
+updateCD();setInterval(updateCD,1000);
+
+// ===== 白天黑夜自动换配色 =====
+function applyTheme(){
+  var hr=new Date().getHours();
+  var day=hr>=6&&hr<18;
+  document.documentElement.setAttribute('data-theme',day?'day':'night');
+  document.getElementById('themeInd').textContent=day?'☀️ 白天模式':'🌙 夜间模式';
+}
+applyTheme();setInterval(applyTheme,60000);
+
+// ===== 高德地图链接 =====
+function amap(lng,lat,name){
+  window.open('https://uri.amap.com/marker?position='+lng+','+lat+'&name='+encodeURIComponent(name)+'&src=travelhandbook&coordinate=wgs84','_blank');
+}
+
+// ===== 每天地点数据 =====
+var dayLocs={
+  1:[{name:'吉隆坡机场',lng:101.71,lat:2.75},{name:'浦东机场',lng:121.81,lat:31.14},{name:'酒店',lng:121.82,lat:31.15}],
+  2:[{name:'酒店',lng:121.82,lat:31.15},{name:'外滩',lng:121.49,lat:31.24},{name:'豫园',lng:121.49,lat:31.23},{name:'南京路',lng:121.48,lat:31.24},{name:'陆家嘴',lng:121.50,lat:31.24}],
+  3:[{name:'酒店',lng:121.82,lat:31.15},{name:'杭州',lng:120.15,lat:30.25},{name:'西湖断桥',lng:120.15,lat:30.26},{name:'楼外楼',lng:120.14,lat:30.25}],
+  4:[{name:'菜鸟总部',lng:120.00,lat:30.28},{name:'外婆家',lng:120.16,lat:30.27},{name:'盒马鲜生',lng:120.16,lat:30.27},{name:'山姆会员店',lng:120.10,lat:30.28}],
+  5:[{name:'杭州',lng:120.15,lat:30.25},{name:'无锡仓库',lng:120.30,lat:31.57},{name:'王兴记',lng:120.31,lat:31.58},{name:'上海酒店',lng:121.48,lat:31.24},{name:'宫宴',lng:121.48,lat:31.23}],
+  6:[{name:'新天地',lng:121.47,lat:31.22},{name:'南翔馒头店',lng:121.49,lat:31.23},{name:'上海中心',lng:121.50,lat:31.24},{name:'南京路',lng:121.48,lat:31.24},{name:'外滩',lng:121.49,lat:31.24},{name:'游轮码头',lng:121.49,lat:31.24}],
+  7:[{name:'上海市区',lng:121.48,lat:31.24},{name:'浦东机场',lng:121.81,lat:31.14}]
+};
+var dayColors={1:'#3498db',2:'#2ecc71',3:'#e67e22',4:'#e74c3c',5:'#9b59b6',6:'#1abc9c',7:'#95a5a6'};
+
+// ===== 一键多点导航 =====
+function openDayNav(day){
+  var pts=dayLocs[day];if(!pts||pts.length===0)return;
+  if(pts.length===1){amap(pts[0].lng,pts[0].lat,pts[0].name);return;}
+  var from=pts[0],to=pts[pts.length-1];
+  var via=pts.slice(1,-1).map(function(p){return p.lng+','+p.lat+','+encodeURIComponent(p.name)}).join(';');
+  var url='https://uri.amap.com/navigation?to='+to.lng+','+to.lat+','+encodeURIComponent(to.name)+'&from='+from.lng+','+from.lat+','+encodeURIComponent(from.name)+'&mode=car&src=travelhandbook&coordinate=wgs84';
+  if(via)url+='&via='+via;
+  window.open(url,'_blank');
+}
+
+// ===== 生成每日迷你地图 =====
+function makeDayMap(day){
+  var pts=dayLocs[day],color=dayColors[day];if(!pts||pts.length===0)return'';
+  var W=300,H=170,pad=35;
+  if(pts.length===1){
+    return '<svg class="day-map-svg" viewBox="0 0 '+W+' '+H+'"><circle cx="'+(W/2)+'" cy="'+(H/2)+'" r="8" fill="'+color+'"/><text x="'+(W/2+14)+'" y="'+(H/2+5)+'" font-size="11" fill="var(--text)">'+pts[0].name+'</text></svg>';
+  }
+  var lngs=pts.map(function(p){return p.lng}),lats=pts.map(function(p){return p.lat});
+  var minLng=Math.min.apply(null,lngs),maxLng=Math.max.apply(null,lngs);
+  var minLat=Math.min.apply(null,lats),maxLat=Math.max.apply(null,lats);
+  var rLng=Math.max(maxLng-minLng,0.05),rLat=Math.max(maxLat-minLat,0.05);
+  var xy=pts.map(function(p){
+    return{x:pad+((p.lng-minLng)/rLng)*(W-2*pad),y:pad+((maxLat-p.lat)/rLat)*(H-2*pad),name:p.name};
+  });
+  var path=xy.map(function(p,i){return(i===0?'M':'L')+p.x.toFixed(1)+','+p.y.toFixed(1)}).join(' ');
+  var svg='<svg class="day-map-svg" viewBox="0 0 '+W+' '+H+'">';
+  svg+='<path d="'+path+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-dasharray="5,3" stroke-linecap="round"/>';
+  xy.forEach(function(p,i){
+    svg+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="'+color+'"/>';
+    var tx=p.x+8,ty=p.y+4;
+    if(tx>W-50)tx=p.x-8-p.name.length*7;
+    svg+='<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" font-size="9" fill="var(--text)">'+p.name+'</text>';
+  });
+  svg+='</svg>';
+  return svg;
+}
+for(var d=1;d<=7;d++){var el=document.getElementById('svg'+d);if(el)el.innerHTML=makeDayMap(d);}
+
+// ===== 展开/收起每日地图 =====
+function toggleMap(day){
+  var wrap=document.getElementById('dm'+day),ico=document.getElementById('ei'+day);
+  if(wrap.classList.contains('show')){wrap.classList.remove('show');ico.classList.remove('open');}
+  else{wrap.classList.add('show');ico.classList.add('open');}
+}
+
+// ===== 回到顶部按钮 =====
+var totop=document.getElementById('totop');
+window.addEventListener('scroll',function(){totop.classList.toggle('show',window.scrollY>400)});
+</script>
+</body>
+</html>
