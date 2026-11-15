@@ -71,10 +71,16 @@ header{margin-bottom:22px}
 .bk-d{font-size:13px;color:var(--sub);margin-top:2px}
 .todo-card{background:var(--surface);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:22px}
 .todo-card h3{font-size:18px;font-weight:800;margin-bottom:14px}
-.todo{list-style:none;counter-reset:td}
-.todo li{counter-increment:td;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:flex-start;gap:10px}
+.todo{list-style:none}
+.todo li{padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:center;gap:10px}
 .todo li:last-child{border-bottom:none}
-.todo li::before{content:counter(td);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--text);color:#fff;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.todo-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--text);color:#fff;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0}
+.todo-text{flex:1;border:none;background:transparent;color:var(--text);font-size:14px;font-family:inherit;outline:none}
+.todo-del{color:var(--muted);cursor:pointer;font-size:18px;padding:0 4px}
+.todo-del:hover{color:var(--accent)}
+.todo-add{display:flex;gap:8px;margin-top:14px}
+.todo-input{flex:1;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;background:var(--bg);color:var(--text)}
+.todo-btn{background:var(--text);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer}
 .todo-note{font-size:12px;color:var(--muted);margin-top:12px;font-style:italic}
 .tips-card{background:var(--surface);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:22px}
 .tips-card h3{font-size:18px;font-weight:800;margin-bottom:14px}
@@ -94,7 +100,7 @@ header{margin-bottom:22px}
 <body>
 <div class="wrap">
 <header>
-<div class="brand">Shanghaiga</div>
+<div class="brand">Shanghai</div>
 <div class="date-line">21 Nov — 28 Nov 2026 · 4 travellers</div>
 </header>
 <div class="user-pill"><div class="user-avatar">SU</div><span>Suishern</span></div>
@@ -157,23 +163,9 @@ header{margin-bottom:22px}
 </div>
 <div class="todo-card">
 <h3>✅ To-do list</h3>
-<ul class="todo" id="todoList">
-<li>Confirm Hangzhou meet-up point & time</li>
-<li>Confirm all hotel rooms</li>
-<li>Book Cainiao HQ visit (Hangzhou)</li>
-<li>Book Cainiao Wuxi warehouse visit</li>
-<li>Arrange Hema Fresh store tour</li>
-<li>Confirm Sam's Club access</li>
-<li>Reserve Gongyan dinner</li>
-<li>Book Huangpu River cruise</li>
-<li>Check China visa-free policy before departure</li>
-<li>Set up Alipay / WeChat Pay</li>
-<li>Download Amap & DiDi apps</li>
-<li>Pack 8–15°C clothing</li>
-<li>Buy travel insurance</li>
-<li>Bring power bank for long airport wait</li>
-</ul>
-<p class="todo-note">Tell me when you finish an item and I will update the page</p>
+<ul class="todo" id="todoList"></ul>
+<div class="todo-add"><input class="todo-input" id="todoInput" placeholder="Add a new task..."/><button class="todo-btn" onclick="addTodo()">Add</button></div>
+<p class="todo-note">Tap text to edit · Tap 🗑 to delete · Saved in this browser only</p>
 </div>
 <div class="tips-card">
 <h3>💡 Tips</h3>
@@ -238,13 +230,13 @@ t.addEventListener('click',function(){
 document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
 t.classList.add('active');
 var day=t.dataset.day;
-if(day==='all'){document.getElementById('content-all').classList.remove('hidden');document.querySelectorAll('.day-section,.hidden').forEach(function(s){if(s.id&&s.id.indexOf('day-')===0)s.classList.add('hidden')});}
+if(day==='all'){document.getElementById('content-all').classList.remove('hidden');document.querySelectorAll('[id^="day-"]').forEach(function(s){s.classList.add('hidden')});}
 else{document.getElementById('content-all').classList.add('hidden');document.querySelectorAll('[id^="day-"]').forEach(function(s){s.classList.add('hidden')});document.getElementById('day-'+day).classList.remove('hidden');}
 });
 });
 function openPlace(idx){var p=places[idx];window.open('https://uri.amap.com/marker?position='+p.lng+','+p.lat+'&name='+encodeURIComponent(p.title)+'&src=shanghaiga&coordinate=wgs84','_blank');}
 var picks=JSON.parse(localStorage.getItem('shanghaiga_picks')||'[]');
-function updatePicks(){document.querySelectorAll('.place-check').forEach(function(el,i){if(picks.includes(i))el.classList.add('on');else el.classList.remove('on')});document.getElementById('pickedCount').textContent=picks.length;document.getElementById('totalCount').textContent=places.length;}
+function updatePicks(){document.querySelectorAll('.place-check').forEach(function(el,i){if(picks.indexOf(i)>-1)el.classList.add('on');else el.classList.remove('on')});document.getElementById('pickedCount').textContent=picks.length;document.getElementById('totalCount').textContent=places.length;}
 function togglePick(idx){var i=picks.indexOf(idx);if(i>-1)picks.splice(i,1);else picks.push(idx);localStorage.setItem('shanghaiga_picks',JSON.stringify(picks));updatePicks();}
 updatePicks();
 var events=[
@@ -276,6 +268,53 @@ document.getElementById('cdTarget').textContent='Shanghai '+sh+' · Your time '+
 updateCD();setInterval(updateCD,1000);
 function setTheme(){var h=new Date().getHours();var isDay=h>=6&&h<18;document.documentElement.setAttribute('data-theme',isDay?'day':'night');document.getElementById('themeLabel').textContent=isDay?'☀️ Day mode':'🌙 Night mode';}
 setTheme();setInterval(setTheme,60000);
+
+// Editable todo list
+var defaultTodos=[
+"Confirm Hangzhou meet-up point & time",
+"Confirm all hotel rooms",
+"Book Cainiao HQ visit (Hangzhou)",
+"Book Cainiao Wuxi warehouse visit",
+"Arrange Hema Fresh store tour",
+"Confirm Sam's Club access",
+"Reserve Gongyan dinner",
+"Book Huangpu River cruise",
+"Check China visa-free policy before departure",
+"Set up Alipay / WeChat Pay",
+"Download Amap & DiDi apps",
+"Pack 8–15°C clothing",
+"Buy travel insurance",
+"Bring power bank for long airport wait"
+];
+var todos=JSON.parse(localStorage.getItem('shanghaiga_todos')||'null')||defaultTodos.slice();
+function saveTodos(){localStorage.setItem('shanghaiga_todos',JSON.stringify(todos));renderTodos();}
+function renderTodos(){
+var ul=document.getElementById('todoList');
+ul.innerHTML='';
+todos.forEach(function(t,i){
+var li=document.createElement('li');
+li.innerHTML='<span class="todo-num">'+(i+1)+'</span><input class="todo-text" value="'+t.replace(/"/g,'&quot;')+'" onchange="editTodo('+i+',this.value)"/><span class="todo-del" onclick="deleteTodo('+i+')">🗑</span>';
+ul.appendChild(li);
+});
+}
+function addTodo(){
+var input=document.getElementById('todoInput');
+var v=input.value.trim();
+if(!v)return;
+todos.push(v);
+input.value='';
+saveTodos();
+}
+function editTodo(i,v){
+todos[i]=v.trim()||todos[i];
+saveTodos();
+}
+function deleteTodo(i){
+todos.splice(i,1);
+saveTodos();
+}
+document.getElementById('todoInput').addEventListener('keypress',function(e){if(e.key==='Enter')addTodo();});
+renderTodos();
 </script>
 </body>
 </html>
